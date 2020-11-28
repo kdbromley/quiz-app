@@ -96,16 +96,23 @@ const store = {
   
 }
 
-  function generateQuizQuestionForm(quizQuestion, currentQuestionNumber) {
+ function handleQuizStart() {
+   $('main').on('click', '.start-quiz', event => {
+     console.log('start quiz clicked')
+     renderQuiz();
+   });
+ }
+
+  function generateQuizQuestionForm(currentQuizQuestion, currentQuestionNumber) {
   return `
   <form class="wireframe">
         <fieldset>
-            <legend>Question ${currentQuestionNumber}: ${question}</legend>
+            <legend>Question ${currentQuestionNumber}: ${currentQuizQuestion.question}</legend>
 
-            <input type="radio" id="a" name="answer-choice"><label for="a">${answers[0]}x</label><br>
-            <input type="radio" id="b" name="answer-choice"><label for="b">${answers[1]}</label><br>
-            <input type="radio" id="c" name="answer-choice"><label for="c">${answers[2]}</label><br>
-            <input type="radio" id="d" name="answer-choice"><label for="d">${answers[3]}</label><br>
+            <input type="radio" id="a" name="answer-choice"><label for="a">${currentQuizQuestion.answers[0]}x</label><br>
+            <input type="radio" id="b" name="answer-choice"><label for="b">${currentQuizQuestion.answers[1]}</label><br>
+            <input type="radio" id="c" name="answer-choice"><label for="c">${currentQuizQuestion.answers[2]}</label><br>
+            <input type="radio" id="d" name="answer-choice"><label for="d">${currentQuizQuestion.answers[3]}</label><br>
         </fieldset>
     </form>  `;
 }
@@ -113,27 +120,27 @@ const store = {
 
 function generateQuizQuestionFormInput(quiz) {
   //choose appropriate question for input to genForm function
-  const currentQuestionNumber = quiz.questionNumber
-  const currentQuestionForm = generateQuizQuestionForm(quiz[currentQuestionNumber], currentQuestionNumber)
-  return question.join('')
+  const currentQuestionNumber = quiz.questionNumber;
+  console.log(currentQuestionNumber);
+  const currentQuizQuestion = quiz.questions[currentQuestionNumber];
+  console.log(currentQuizQuestion);
+  const currentQuestionForm = generateQuizQuestionForm(currentQuizQuestion, currentQuestionNumber);
+  return currentQuestionForm;
 }
 
 function renderQuiz() {
     //responsible for rendering quiz in the DOM
-    console.log('`renderQuix` ran');
+    console.log('`renderQuiz` ran');
     /*render in <main>, insert form with 
     -question
     -answers as radio buttons
     -object index in array */
-    const quizQuestionDisplay = generateQuizQuestionForm(STORE)
+    const quizQuestionDisplay = generateQuizQuestionFormInput(STORE)
   //update quizStarted value
   //update questionNumber
   $('main').html(quizQuestionDisplay)
 }
 
-function startQuiz() {
-  //responsible for starting quiz and update quiz start in STORE
-}
 
 function handleQuestionSubmission() {
   //for when user hits submit on a question, checks answer and displays proper response
@@ -153,7 +160,7 @@ function handleQuizCompletion() {
 
 
 function handleQuizApp() {
-  handleQuizStartPage();s
+  handleQuizStartPage();
 
 }
 
