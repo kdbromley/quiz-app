@@ -107,13 +107,16 @@ const store = {
   return `
   <form class="wireframe">
         <fieldset>
-            <legend>Question ${currentQuestionNumber}: ${currentQuizQuestion.question}</legend>
+            <legend>Question ${currentQuestionNumber + 1}: ${currentQuizQuestion.question}</legend>
 
             <input type="radio" id="a" name="answer-choice"><label for="a">${currentQuizQuestion.answers[0]}x</label><br>
             <input type="radio" id="b" name="answer-choice"><label for="b">${currentQuizQuestion.answers[1]}</label><br>
             <input type="radio" id="c" name="answer-choice"><label for="c">${currentQuizQuestion.answers[2]}</label><br>
             <input type="radio" id="d" name="answer-choice"><label for="d">${currentQuizQuestion.answers[3]}</label><br>
         </fieldset>
+        <div>
+        <button type="submit">Submit</button>
+        </div>
     </form>  `;
 }
 
@@ -141,14 +144,26 @@ function renderQuiz() {
   $('main').html(quizQuestionDisplay)
 }
 
+function checkIsAnswerCorrect() {
+  //compare submitted answer against correct
+  //return isCorrect: boolean
+}
+
 
 function handleQuestionSubmission() {
   //for when user hits submit on a question, checks answer and displays proper response
   //updates button with NEXT, updates score
+  $('main').submit(function(event) {
+    event.preventDefault();
+    //check answer correct
+    const submittedAnswer = $('input[name=""]:checked').val();
+    //change button to next
+    $('button').html('Next').attr('type', 'button')
+    //update score
+    
+    console.log('handleQuestionSubmission ran')
+  })
 }
-
-function checkAnswer
-
 
 function handleSubmissionResponse() {
   //for when user response is not correct, displays an error code with correct response
