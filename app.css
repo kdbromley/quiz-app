@@ -72,6 +72,11 @@ button.submit-answer, button.next-question {
         margin-left: 45%;
       }
 
+      input {
+          margin-bottom: 15px;
+
+      }
+
       h1 {
         margin-right: 20%;
         margin-left: 20%;
@@ -80,8 +85,9 @@ button.submit-answer, button.next-question {
       }
 
       form {
-        margin: 15px 15px;
+        margin: 20px 15%;
         color: #E8E9F3;
+        font-size: larger;
         border-radius: 20px;
         padding: 30px 30px;
       }
