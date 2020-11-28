@@ -23,7 +23,7 @@ const store = {
           'Conductors'
         ],
         correctAnswer: 'Synapses'
-      }
+      },
       {
         question: 'Where are neurons found in the body?',
         answers: [
@@ -33,7 +33,7 @@ const store = {
           'Neurons are everywhere!'
         ],
         correctAnswer: 'Neurons are everywhere!'
-      }
+      },
       {
         question: 'Which of the following animals doesn`t have a brain?' ,
         answers: [
@@ -43,7 +43,7 @@ const store = {
           'Ant'
         ],
         correctAnswer: 'Jellyfish'
-      }
+      },
       {
         question: 'Which neurotransmitter is commonly refered to as the "love hormone"?',
         answers: [
@@ -87,23 +87,74 @@ const store = {
   
   // These functions handle events (submit, click, etc)
 
-funciton renderQuiz() {
-    //responsible for rendering quiz in the DOM
+  function handleQuizStartPage() {
+    $('main').html(`<div class="welcome">
+    <h3>Welcome!</h3>
+    <p>Want to test your neuroscience knowledge?</p>
+    </div>
+    <button class="start-quiz">Start Quiz</button>`);
+  
 }
 
-function startQuiz {
+  function generateQuizQuestionForm(quizQuestion, currentQuestionNumber) {
+  return `
+  <form class="wireframe">
+        <fieldset>
+            <legend>Question ${currentQuestionNumber}: ${question}</legend>
+
+            <input type="radio" id="a" name="answer-choice"><label for="a">${answers[0]}x</label><br>
+            <input type="radio" id="b" name="answer-choice"><label for="b">${answers[1]}</label><br>
+            <input type="radio" id="c" name="answer-choice"><label for="c">${answers[2]}</label><br>
+            <input type="radio" id="d" name="answer-choice"><label for="d">${answers[3]}</label><br>
+        </fieldset>
+    </form>  `;
+}
+
+
+function generateQuizQuestionFormInput(quiz) {
+  //choose appropriate question for input to genForm function
+  const currentQuestionNumber = quiz.questionNumber
+  const currentQuestionForm = generateQuizQuestionForm(quiz[currentQuestionNumber], currentQuestionNumber)
+  return question.join('')
+}
+
+function renderQuiz() {
+    //responsible for rendering quiz in the DOM
+    console.log('`renderQuix` ran');
+    /*render in <main>, insert form with 
+    -question
+    -answers as radio buttons
+    -object index in array */
+    const quizQuestionDisplay = generateQuizQuestionForm(STORE)
+  //update quizStarted value
+  //update questionNumber
+  $('main').html(quizQuestionDisplay)
+}
+
+function startQuiz() {
   //responsible for starting quiz and update quiz start in STORE
 }
 
-function handleQuestionSubmission {
+function handleQuestionSubmission() {
   //for when user hits submit on a question, checks answer and displays proper response
   //updates button with NEXT, updates score
 }
 
-function handleSubmissionResponse {
+function checkAnswer
+
+
+function handleSubmissionResponse() {
   //for when user response is not correct, displays an error code with correct response
 }
 
-function handleQuizCompletion {
+function handleQuizCompletion() {
   //for when user finishes quiz, display screen with final score and ability to restart quiz
 }
+
+
+function handleQuizApp() {
+  handleQuizStartPage();s
+
+}
+
+$(handleQuizApp);
