@@ -90,3 +90,20 @@ const store = {
 funciton renderQuiz() {
     //responsible for rendering quiz in the DOM
 }
+
+function startQuiz {
+  //responsible for starting quiz and update quiz start in STORE
+}
+
+function handleQuestionSubmission {
+  //for when user hits submit on a question, checks answer and displays proper response
+  //updates button with NEXT, updates score
+}
+
+function handleSubmissionResponse {
+  //for when user response is not correct, displays an error code with correct response
+}
+
+function handleQuizCompletion {
+  //for when user finishes quiz, display screen with final score and ability to restart quiz
+}
