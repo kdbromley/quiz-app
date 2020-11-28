@@ -160,7 +160,7 @@ function handleQuestionSubmission() {
     //change button to next
     $('button').html('Next').attr('type', 'button')
     //update score
-    
+
     console.log('handleQuestionSubmission ran')
   })
 }
@@ -176,7 +176,8 @@ function handleQuizCompletion() {
 
 function handleQuizApp() {
   handleQuizStartPage();
-
+  handleQuizStart();
+  handleQuestionSubmission();
 }
 
 $(handleQuizApp);
