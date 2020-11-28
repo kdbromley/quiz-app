@@ -1,3 +1,29 @@
+body {
+    text-align: center;
+    padding: 20px;
+}
+
 .wireframe {
     border: 2px solid grey
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    flex: 1;
+}
+
+.item-double {
+    flex: 2;
+}
+
+
+/* Desktop */
+@media all and (min-width: 600px) {
+    .group {
+        flex-direction: row;
+    }
 }
