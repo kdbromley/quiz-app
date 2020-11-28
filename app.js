@@ -1,7 +1,7 @@
 /**
  * Example store structure
  */
-const store = {
+const STORE = {
     // 5 or more questions are required
     questions: [
       {
@@ -138,7 +138,7 @@ function renderQuiz() {
     -question
     -answers as radio buttons
     -object index in array */
-    const quizQuestionDisplay = generateQuizQuestionFormInput(STORE)
+    const quizQuestionDisplay = generateQuizQuestionFormInput(STORE);
   //update quizStarted value
   //update questionNumber
   $('main').html(quizQuestionDisplay)
