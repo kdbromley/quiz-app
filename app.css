@@ -1,3 +1,5 @@
+/* Mobile First*/
+
 body {
     text-align: center;
     padding: 20px;
@@ -32,7 +34,7 @@ h1, h2, h3, h4 {
 form {
     background-color: black;
     text-align: left;
-    margin: 20px 5px;
+    margin: 20px 10px;
     border-radius: 10px;
     padding: 25px 10px;
 }
@@ -74,7 +76,7 @@ p.correct {
 
 .progress {
     background-color: black;
-    margin: 20px 5px;
+    margin: 20px 10px;
     border-radius: 10px;
     padding: 25px 10px;
     font-family: 'Courier New', Courier, monospace;
