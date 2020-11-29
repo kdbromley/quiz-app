@@ -59,6 +59,7 @@ const STORE = {
     questionNumber: 0,
     score: 0
   };
+
   
   /**
    * 
@@ -176,7 +177,7 @@ function handleQuestionSubmission() {
     //change button to next
     $('button').html('Next').attr('type', 'button').attr('class', 'next')
     //clear radio buttons of check
-    $('input[name="answer-choice"]').attr('disabled' true)
+    $('input[name="answer-choice"]').attr('disabled', true)
     console.log('handleQuestionSubmission ran')
   })
 }
@@ -184,9 +185,37 @@ function handleQuestionSubmission() {
 function handleNextQuestion() {
   $('main').on('click', '.next', event => {
     STORE.questionNumber++;
-    renderQuiz();
-  }
+    if (STORE.questionNumber >= STORE.questions.length) {
+      handleQuizSubmission();
+    } else {
+    renderQuiz(); }
+  })
 }
+
+function getQuizScore() {
+  return STORE.score;
+}
+
+function handleQuizSubmission() {
+  const finalScore = getQuizScore(STORE);
+  $('main').html(`
+  <div class="fnished">
+  <h3>Quiz complete!</h3>
+  <p>You got ${finalScore} questions correct!</p>
+  </div>
+  <button class="restart-quiz">Try Again</button>
+  `);
+}
+
+function handleRestartQuiz() {
+  $('main').on('click', '.restart-quiz', event => {
+    STORE.score = 0;
+    STORE.questionNumber = 0;
+    renderQuiz();
+  })
+}
+
+
 
 function handleSubmissionResponse() {
   //for when user response is not correct, displays an error code with correct response
@@ -201,6 +230,8 @@ function handleQuizApp() {
   handleQuizStartPage();
   handleQuizStart();
   handleQuestionSubmission();
+  handleNextQuestion();
+  handleRestartQuiz;
 }
 
 $(handleQuizApp);

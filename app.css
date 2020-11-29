@@ -64,6 +64,13 @@ button.submit-answer, button.next-question {
 }
 
 
+p.incorrect {
+    color: red;
+  }
+  
+  p.correct {
+    color: green;
+  }
 
 
 
