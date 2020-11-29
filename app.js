@@ -1,8 +1,4 @@
-/**
- * Example store structure
- */
 const STORE = {
-    // 5 or more questions are required
     questions: [
       {
         question: 'Who is considered the "Father of Neuroscience"?',
@@ -55,38 +51,9 @@ const STORE = {
         correctAnswer: 'Oxytocin'
       }
     ],
-    quizStarted: false,
     questionNumber: 0,
     score: 0
   };
-
-  
-  /**
-   * 
-   * Technical requirements:
-   * 
-   * Your app should include a render() function, that regenerates the view each time the store is updated. 
-   * See your course material and access support for more details.
-   *
-   * NO additional HTML elements should be added to the index.html file.
-   *
-   * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
-   *
-   * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
-   * 
-   */
-  
-  /********** TEMPLATE GENERATION FUNCTIONS **********/
-  
-  // These functions return HTML templates
-  
-  /********** RENDER FUNCTION(S) **********/
-  
-  // This function conditionally replaces the contents of the <main> tag based on the state of the store
-  
-  /********** EVENT HANDLER FUNCTIONS **********/
-  
-  // These functions handle events (submit, click, etc)
 
   function handleQuizStartPage() {
     $('main').html(`
@@ -99,20 +66,22 @@ const STORE = {
   
 }
 
- function handleQuizStart() {
+function handleQuizStart() {
    $('main').on('click', '.start-quiz', event => {
-     console.log('start quiz clicked')
      renderQuiz();
    });
- }
+}
 
-  function generateQuizQuestionForm(currentQuizQuestion, currentQuestionNumber) {
+function generateQuizQuestionForm(quiz) {
+  const currentQuestionNumber = quiz.questionNumber;
+  const currentQuizQuestion = quiz.questions[currentQuestionNumber];
+  
   return `
-  <form class="wireframe">
+   <form class="wireframe">
         <fieldset>
             <legend>Question ${currentQuestionNumber + 1}: ${currentQuizQuestion.question}</legend>
 
-            <input type="radio" id="a" name="answer-choice" required><label for="a">${currentQuizQuestion.answers[0]}x</label><br>
+            <input type="radio" id="a" name="answer-choice" required><label for="a">${currentQuizQuestion.answers[0]}</label><br>
             <input type="radio" id="b" name="answer-choice"><label for="b">${currentQuizQuestion.answers[1]}</label><br>
             <input type="radio" id="c" name="answer-choice"><label for="c">${currentQuizQuestion.answers[2]}</label><br>
             <input type="radio" id="d" name="answer-choice"><label for="d">${currentQuizQuestion.answers[3]}</label><br>
@@ -120,49 +89,36 @@ const STORE = {
         <div>
         <button type="submit">Submit</button>
         </div>
-    </form>  `;
-}
-
-
-function generateQuizQuestionFormInput(quiz) {
-  //choose appropriate question for input to genForm function
-  const currentQuestionNumber = quiz.questionNumber;
-  console.log(currentQuestionNumber);
-  const currentQuizQuestion = quiz.questions[currentQuestionNumber];
-  console.log(currentQuizQuestion);
-  const currentQuestionForm = generateQuizQuestionForm(currentQuizQuestion, currentQuestionNumber);
-  return currentQuestionForm;
+    </form> 
+    <div class="progress">
+    <p>Score: ${quiz.score} / 5</p>
+    <p>Progress: Question ${currentQuestionNumber + 1} / 5</p>
+    </div>
+    `;
 }
 
 function renderQuiz() {
-    //responsible for rendering quiz in the DOM
-    console.log('`renderQuiz` ran');
     /*render in <main>, insert form with 
     -question
     -answers as radio buttons
     -object index in array */
-    const quizQuestionDisplay = generateQuizQuestionFormInput(STORE);
+    const quizQuestionDisplay = generateQuizQuestionForm(STORE);
   //update quizStarted value
   //update questionNumber
   $('main').html(quizQuestionDisplay)
 }
 
-function updateScore(quiz) {
-  quiz.score++
-  console.log(quiz.score)
-}
-
-function checkIsAnswerCorrect(submittedAnswer, quiz) {
-  const currentCorrectAnswer = quiz.questions[quiz.questionNumber].correctAnswer
-  console.log(currentCorrectAnswer);
+function checkAnswer(submittedAnswer, quiz) {
+  const currentCorrectAnswer = quiz.questions[quiz.questionNumber].correctAnswer;
   //compare submitted answer against correct
   if (submittedAnswer === currentCorrectAnswer) {
-    updateScore(quiz);
-    return `<p class="correct">Correct!</p>`;
+    quiz.score++;
+    $('input[name="answer-choice"]:checked').next('label').after(`<p class="correct">Correct!</p>`);
    } else {
-     return `<p class="incorrect">Sorry, incorrect. The answer is ` + currentCorrectAnswer + `</p>`;
+    $('input[name="answer-choice"]:checked').next('label').after(`<p class="incorrect">Sorry, incorrect. The answer is ` + currentCorrectAnswer + `</p>`);
    }
 }
+
 
 function handleQuestionSubmission() {
   //for when user hits submit on a question, checks answer and displays proper response
@@ -171,14 +127,11 @@ function handleQuestionSubmission() {
     event.preventDefault();
     //get answer choice value
     const submittedAnswer = $('input[name="answer-choice"]:checked').next('label').html();
-    //check answer and alert
-    const correctOrIncorrectAlert = checkIsAnswerCorrect(submittedAnswer, STORE);
-    $('input[name="answer-choice"]:checked').next('label').after(correctOrIncorrectAlert);
-    //change button to next
-    $('button').html('Next').attr('type', 'button').attr('class', 'next')
+    $('button').html('Next').attr('type', 'button').attr('class', 'next');
     //clear radio buttons of check
     $('input[name="answer-choice"]').attr('disabled', true)
-    console.log('handleQuestionSubmission ran')
+    //check answer and alert
+    checkAnswer(submittedAnswer, STORE);
   })
 }
 
@@ -192,16 +145,13 @@ function handleNextQuestion() {
   })
 }
 
-function getQuizScore() {
-  return STORE.score;
-}
+
 
 function handleQuizSubmission() {
-  const finalScore = getQuizScore(STORE);
-  $('main').html(`
-  <div class="fnished">
+  $('main').html(` 
+  <div class="finished">
   <h3>Quiz complete!</h3>
-  <p>You got ${finalScore} questions correct!</p>
+  <p>You got ${STORE.score} questions correct!</p>
   </div>
   <button class="restart-quiz">Try Again</button>
   `);
@@ -231,7 +181,7 @@ function handleQuizApp() {
   handleQuizStart();
   handleQuestionSubmission();
   handleNextQuestion();
-  handleRestartQuiz;
+  handleRestartQuiz();
 }
 
 $(handleQuizApp);
