@@ -88,11 +88,13 @@ const STORE = {
   // These functions handle events (submit, click, etc)
 
   function handleQuizStartPage() {
-    $('main').html(`<div class="welcome">
+    $('main').html(`
+    <div class="welcome">
     <h3>Welcome!</h3>
     <p>Want to test your neuroscience knowledge?</p>
     </div>
-    <button class="start-quiz">Start Quiz</button>`);
+    <button class="start-quiz">Start Quiz</button>
+    `);
   
 }
 
@@ -109,7 +111,7 @@ const STORE = {
         <fieldset>
             <legend>Question ${currentQuestionNumber + 1}: ${currentQuizQuestion.question}</legend>
 
-            <input type="radio" id="a" name="answer-choice"><label for="a">${currentQuizQuestion.answers[0]}x</label><br>
+            <input type="radio" id="a" name="answer-choice" required><label for="a">${currentQuizQuestion.answers[0]}x</label><br>
             <input type="radio" id="b" name="answer-choice"><label for="b">${currentQuizQuestion.answers[1]}</label><br>
             <input type="radio" id="c" name="answer-choice"><label for="c">${currentQuizQuestion.answers[2]}</label><br>
             <input type="radio" id="d" name="answer-choice"><label for="d">${currentQuizQuestion.answers[3]}</label><br>
@@ -144,25 +146,46 @@ function renderQuiz() {
   $('main').html(quizQuestionDisplay)
 }
 
-function checkIsAnswerCorrect() {
-  //compare submitted answer against correct
-  //return isCorrect: boolean
+function updateScore(quiz) {
+  quiz.score++
+  console.log(quiz.score)
 }
 
+function checkIsAnswerCorrect(submittedAnswer, quiz) {
+  const currentCorrectAnswer = quiz.questions[quiz.questionNumber].correctAnswer
+  console.log(currentCorrectAnswer);
+  //compare submitted answer against correct
+  if (submittedAnswer === currentCorrectAnswer) {
+    updateScore(quiz);
+    return `<p class="correct">Correct!</p>`;
+   } else {
+     return `<p class="incorrect">Sorry, incorrect. The answer is ` + currentCorrectAnswer + `</p>`;
+   }
+}
 
 function handleQuestionSubmission() {
   //for when user hits submit on a question, checks answer and displays proper response
   //updates button with NEXT, updates score
   $('main').submit(function(event) {
     event.preventDefault();
-    //check answer correct
-    const submittedAnswer = $('input[name=""]:checked').val();
+    //get answer choice value
+    const submittedAnswer = $('input[name="answer-choice"]:checked').next('label').html();
+    //check answer and alert
+    const correctOrIncorrectAlert = checkIsAnswerCorrect(submittedAnswer, STORE);
+    $('input[name="answer-choice"]:checked').next('label').after(correctOrIncorrectAlert);
     //change button to next
-    $('button').html('Next').attr('type', 'button')
-    //update score
-
+    $('button').html('Next').attr('type', 'button').attr('class', 'next')
+    //clear radio buttons of check
+    $('input[name="answer-choice"]').attr('disabled' true)
     console.log('handleQuestionSubmission ran')
   })
+}
+
+function handleNextQuestion() {
+  $('main').on('click', '.next', event => {
+    STORE.questionNumber++;
+    renderQuiz();
+  }
 }
 
 function handleSubmissionResponse() {

@@ -52,7 +52,13 @@ input {
     margin-bottom: 8px;
     margin-left: 10px;
 }
-  
+
+button.start-quiz {
+    height: 75px;
+    width: 150px;
+    border-radius: 10px;
+}
+
 button.submit-answer, button.next-question {
     margin-left: 35%;
 }
@@ -68,7 +74,7 @@ button.submit-answer, button.next-question {
         flex-direction: row;
     }
 
-    button {
+    form button {
         margin-left: 45%;
       }
 
