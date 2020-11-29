@@ -58,7 +58,7 @@ const STORE = {
   function handleQuizStartPage() {
     $('main').html(`
     <div class="welcome">
-    <h3>Welcome!</h3>
+    <h2>Welcome!</h2>
     <p>Want to test your neuroscience knowledge?</p>
     </div>
     <button class="start-quiz">Start Quiz</button>
@@ -150,7 +150,7 @@ function handleNextQuestion() {
 function handleQuizSubmission() {
   $('main').html(` 
   <div class="finished">
-  <h3>Quiz complete!</h3>
+  <h2>Quiz complete!</h2>
   <p>You got ${STORE.score} questions correct!</p>
   </div>
   <button class="restart-quiz">Try Again</button>
